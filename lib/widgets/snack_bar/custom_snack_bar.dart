@@ -106,7 +106,7 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 widget.message,
-                style: theme.textTheme.bodyText2?.merge(
+                style: theme.textTheme.bodyMedium?.merge(
                   widget.textStyle,
                 ),
                 textAlign: TextAlign.center,
