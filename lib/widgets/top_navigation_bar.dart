@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:league_arena/constants/controllers.dart';
 import 'package:league_arena/constants/style.dart';
-import 'package:league_arena/routes/routes.dart';
 import 'package:league_arena/utils/content_view.dart';
 import 'package:league_arena/widgets/custom_tab_bar.dart';
-import 'package:league_arena/widgets/custom_text.dart';
 import 'package:routemaster/routemaster.dart';
 
 Size calcTextSize(String text, TextStyle style) {
@@ -18,35 +16,39 @@ Size calcTextSize(String text, TextStyle style) {
   return textPainter.size;
 }
 
-AppBar topNavigationBar(BuildContext context, TabPageState controller,
-        List<ContentView> contentViews) =>
-    AppBar(
+AppBar topNavigationBar(BuildContext context, TabPageState controller, List<ContentView> contentViews) => AppBar(
       iconTheme: IconThemeData(color: card),
-      backgroundColor: card,
-      automaticallyImplyLeading: false,
-      elevation: 1,
-      shadowColor: secondary,
+      backgroundColor: background,
+      automaticallyImplyLeading: true,
+      elevation: 0,
+      shadowColor: Colors.transparent,
       //shape: Border(bottom: BorderSide(color: secondary, width: 0.5)),
       title: Obx(
         () => Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 110,
-              padding: const EdgeInsets.only(bottom: 3),
-              child: Image.asset(
-                "assets/icon/logo2.png",
-              ),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
+            // Container(
+            //   //width: 110,
+            //   padding: const EdgeInsets.only(bottom: 10, top: 10),
+            //   child: Image.asset(
+            //     "assets/icon/logo2.png",
+            //     scale: 22,
+            //   ),
+            // ),
+            // const SizedBox(
+            //   width: 10,
+            // ),
             CustomTabBarPrimary(
-                controller: controller,
-                tabs: contentViews.map((e) => e.tab).toList(), indiColor: Colors.purple,),
-            Expanded(child: SizedBox(
-              height: kToolbarHeight,
-              child: WindowTitleBarBox(child: MoveWindow(),))),
+              controller: controller,
+              tabs: contentViews.map((e) => e.tab).toList(),
+              indiColor: Colors.purple,
+            ),
+            Expanded(
+                child: SizedBox(
+                    height: kToolbarHeight,
+                    child: WindowTitleBarBox(
+                      child: MoveWindow(),
+                    ))),
             userController.uID.value == ''
                 ? Row(
                     // mainAxisAlignment: MainAxisAlignment.end,
@@ -116,40 +118,40 @@ AppBar topNavigationBar(BuildContext context, TabPageState controller,
                 : Row(
                     // mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(30.0),
-                                            gradient: LinearGradient(
-                                              colors: <Color>[Colors.blue.shade600, Colors.purple],
-                                            ),
-                                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Routemaster.of(context).replace(signOutScreenRoute);
-                            },
-                            child: CustomText(
-                              text: "SIGN OUT",
-                              color: primary,
-                              size: 17,
-                              weight: FontWeight.bold,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              shadowColor: Colors.transparent,
-                                      elevation: 0,
-                                      primary: Colors.transparent,
-                              //primary: Colors.purple,
-                              //padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                              fixedSize: const Size(115, 35),
-                              // shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(30)),
-                              // textStyle: const TextStyle(
-                              //     fontSize: 20, fontWeight: FontWeight.bold)
-                            ),
-                          ),
-                        ),
+                        padding: EdgeInsets.only(bottom: 8),
+                        // child: Container(
+                        //   decoration: BoxDecoration(
+                        //                     borderRadius: BorderRadius.circular(30.0),
+                        //                     gradient: LinearGradient(
+                        //                       colors: <Color>[Colors.blue.shade600, Colors.purple],
+                        //                     ),
+                        //                   ),
+                        //   child: ElevatedButton(
+                        //     onPressed: () {
+                        //       Routemaster.of(context).replace(signOutScreenRoute);
+                        //     },
+                        //     style: ElevatedButton.styleFrom(
+                        //       shadowColor: Colors.transparent,
+                        //               elevation: 0,
+                        //               //primary: Colors.transparent,
+                        //       //primary: Colors.purple,
+                        //       //padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        //       fixedSize: const Size(115, 35),
+                        //       // shape: RoundedRectangleBorder(
+                        //       //     borderRadius: BorderRadius.circular(30)),
+                        //       // textStyle: const TextStyle(
+                        //       //     fontSize: 20, fontWeight: FontWeight.bold)
+                        //     ),
+                        //     // child: CustomText(
+                        //     //   text: "SIGN OUT",
+                        //     //   color: primary,
+                        //     //   size: 17,
+                        //     //   weight: FontWeight.bold,
+                        //     // ),
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),

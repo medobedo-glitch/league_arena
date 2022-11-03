@@ -41,7 +41,6 @@ void showTopSnackBar(
   overlayEntry = OverlayEntry(
     builder: (context) {
       return TopSnackBar(
-        child: child,
         onDismissed: () {
           overlayEntry.remove();
           _previousEntry = null;
@@ -51,12 +50,13 @@ void showTopSnackBar(
         displayDuration: displayDuration,
         additionalTopPadding: additionalTopPadding,
         onTap: onTap,
+        child: child,
       );
     },
   );
 
   _previousEntry?.remove();
-  overlayState.insert(overlayEntry);
+  overlayState?.insert(overlayEntry);
   _previousEntry = overlayEntry;
 }
 
@@ -82,7 +82,7 @@ class TopSnackBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TopSnackBarState createState() => _TopSnackBarState();
+  State<TopSnackBar> createState() => _TopSnackBarState();
 }
 
 class _TopSnackBarState extends State<TopSnackBar>

@@ -4,7 +4,7 @@ class SponsorsScreen extends StatefulWidget {
   const SponsorsScreen({Key? key}) : super(key: key);
 
   @override
-  _SponsorsScreenState createState() => _SponsorsScreenState();
+  State<SponsorsScreen> createState() => _SponsorsScreenState();
 }
 
 class _SponsorsScreenState extends State<SponsorsScreen> {

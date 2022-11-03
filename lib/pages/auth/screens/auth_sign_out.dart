@@ -8,7 +8,7 @@ class AuthSignOutScreen extends StatefulWidget {
   const AuthSignOutScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthSignOutScreenState createState() => _AuthSignOutScreenState();
+  State<AuthSignOutScreen> createState() => _AuthSignOutScreenState();
 }
 
 class _AuthSignOutScreenState extends State<AuthSignOutScreen> {
@@ -17,7 +17,7 @@ class _AuthSignOutScreenState extends State<AuthSignOutScreen> {
   @override
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      authController.signOut(context);
+      authController.signOut();
       timer.cancel();
     });
 

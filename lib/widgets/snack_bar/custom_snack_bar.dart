@@ -64,7 +64,7 @@ class CustomSnackBar extends StatefulWidget {
   });
 
   @override
-  _CustomSnackBarState createState() => _CustomSnackBarState();
+  State<CustomSnackBar> createState() => _CustomSnackBarState();
 }
 
 class _CustomSnackBarState extends State<CustomSnackBar> {

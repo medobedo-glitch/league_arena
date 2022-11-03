@@ -4,7 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   bitsdojo_window_windows
-  dynamic_color
+  screen_retriever
   window_manager
 )
 

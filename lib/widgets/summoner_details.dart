@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/controllers.dart';
 import 'package:league_arena/constants/style.dart';
 import 'package:league_arena/widgets/custom_text.dart';
@@ -8,27 +9,15 @@ class SummonerDetails extends StatefulWidget {
   final String summonerName;
   final String summonerId;
   final String summonerRegion;
-  const SummonerDetails(
-      {Key? key,
-      required this.summonerName,
-      required this.summonerId,
-      required this.summonerRegion})
-      : super(key: key);
+  const SummonerDetails({Key? key, required this.summonerName, required this.summonerId, required this.summonerRegion}) : super(key: key);
 
   @override
-  _SummonerDetailsState createState() => _SummonerDetailsState();
+  State<SummonerDetails> createState() => _SummonerDetailsState();
 }
 
 class _SummonerDetailsState extends State<SummonerDetails> {
-  @override
-  void initState() {
-    getRank();
-    super.initState();
-  }
-
   Future getRank() async {
-    rank.value = await userController.getSummonerLeague(
-        widget.summonerId, widget.summonerRegion);
+    rank.value = await userController.getSummonerLeague(widget.summonerId, widget.summonerRegion);
   }
 
   var size = 50.0.obs;
@@ -37,13 +26,13 @@ class _SummonerDetailsState extends State<SummonerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    getRank();
     return Obx(
       () => Container(
         margin: const EdgeInsets.only(bottom: 5),
         height: size.value,
         width: 270,
-        decoration: BoxDecoration(
-            color: background, borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: background, borderRadius: BorderRadius.circular(10)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -56,25 +45,43 @@ class _SummonerDetailsState extends State<SummonerDetails> {
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            CustomText(
-                              text: widget.summonerName,
-                              weight: FontWeight.bold,
-                            ),
-                            if (rank.value != '')
-                              CustomText(
-                                  text: rank.value,
-                                  weight: FontWeight.bold,
-                                  size: 12,
-                                  color: Colors.lightBlueAccent),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Tooltip(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover.withOpacity(0.8)),
+                                    waitDuration: const Duration(milliseconds: 300),
+                                    message: widget.summonerName,
+                                    child: SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                              widget.summonerName,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              softWrap: false,
+                                              style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.bold)),
+                                            )
+                                    ),
+                                  ),
+                                  CustomText(text: rank.value != '' ? rank.value : 'UNRANKED', weight: FontWeight.bold, size: 12, color: Colors.lightBlueAccent),
+                                ],
+                              ),
+                            )
                           ],
                         )
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
-                            CustomText(
-                              text: 'Confirm Removing Summoner?',
-                              weight: FontWeight.bold,
-                              size: 12,
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: CustomText(
+                                text: 'Confirm Removing Summoner?',
+                                weight: FontWeight.bold,
+                                size: 13,
+                              ),
                             ),
                           ],
                         ),
@@ -86,53 +93,56 @@ class _SummonerDetailsState extends State<SummonerDetails> {
                           alignment: Alignment.center,
                           height: 25,
                           width: 60,
-                          decoration: BoxDecoration(
-                              color: hover,
-                              borderRadius: BorderRadius.circular(2)),
+                          decoration: BoxDecoration(color: hover, borderRadius: BorderRadius.circular(2)),
                           child: CustomText(
                             text: widget.summonerRegion,
                             weight: FontWeight.bold,
                           ),
                         )
-                      : IconButton(
-                          onPressed: () async {
-                            await userController
-                                    .removeSummoner(widget.summonerId)
-                                ? [
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) {
-                                      userController.summoners.value = [];
-                                      userController.updateSummoners();
-                                    })
-                                  ]
-                                : null;
-                          },
-                          icon: const Icon(Icons.done),
-                          iconSize: 20,
-                          color: Colors.greenAccent,
-                          padding: EdgeInsets.zero,
-                          splashRadius: 1,
-                          constraints: const BoxConstraints(),
-                          tooltip: 'Confirm',
+                      : Tooltip(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover.withOpacity(0.8)),
+                          waitDuration: const Duration(milliseconds: 200),
+                          message: 'Confirm',
+                          child: IconButton(
+                            onPressed: () async {
+                              await userController.removeSummoner(widget.summonerId)
+                                  ? [
+                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                        removing.value = false;
+                                        userController.summoners.value = [];
+                                        userController.updateSummoners();
+                                      })
+                                    ]
+                                  : null;
+                            },
+                            icon: const Icon(Icons.done),
+                            iconSize: 20,
+                            color: Colors.greenAccent,
+                            padding: EdgeInsets.zero,
+                            splashRadius: 1,
+                            constraints: const BoxConstraints(),
+                          ),
                         ),
                   const SizedBox(
                     width: 10,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      removing.value == false
-                          ? removing.value = true
-                          : removing.value = false;
-                    },
-                    icon: removing.value == false
-                        ? const Icon(Icons.remove_circle_outline)
-                        : const Icon(Icons.close_sharp),
-                    iconSize: removing.value == false ? 15 : 20,
-                    color: Colors.redAccent,
-                    padding: EdgeInsets.zero,
-                    splashRadius: 1,
-                    constraints: const BoxConstraints(),
-                    tooltip: removing.value == false ? 'Remove' : 'Cancel',
+                  Tooltip(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover.withOpacity(0.8)),
+                    waitDuration: const Duration(milliseconds: 200),
+                    message: removing.value == false ? 'Remove' : 'Cancel',
+                    child: IconButton(
+                      onPressed: () {
+                        removing.value == false ? removing.value = true : removing.value = false;
+                      },
+                      icon: removing.value == false ? const Icon(Icons.remove_circle_outline) : const Icon(Icons.close_sharp),
+                      iconSize: removing.value == false ? 15 : 20,
+                      color: Colors.redAccent,
+                      padding: EdgeInsets.zero,
+                      splashRadius: 1,
+                      constraints: const BoxConstraints(),
+                    ),
                   ),
                   const SizedBox(
                     width: 10,

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:league_arena/constants/routes.dart';
 import 'package:league_arena/constants/style.dart';
-import 'package:league_arena/routes/routes.dart';
+import 'package:league_arena/main.dart';
 import 'package:league_arena/utils/content_view.dart';
 import 'package:league_arena/widgets/custom_tab.dart';
 import 'package:league_arena/widgets/custom_tab_bar.dart';
 import 'package:league_arena/widgets/custom_text.dart';
-import 'package:league_arena/widgets/top_navigation_bar.dart';
 import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -43,16 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     final tabPage2 = TabPage.of(context);
-    double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.only(top: kToolbarHeight + 5, right: 0, left: 0, bottom: 0),
+      padding: const EdgeInsets.only(top: 0),
       child: Container(
-        padding: const EdgeInsets.only(left: 12, right: 0),
-        width: _width - 305,
-        height: _height - kToolbarHeight,
+        padding: const EdgeInsets.only(left: 0, right: 0),
+        width: width - 305,
+        //height: height - 300,
         decoration: BoxDecoration(
           color: background,
         ),
@@ -61,31 +61,46 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Container(
                 height: 35,
-                width: 270,
+                //width: 270,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CustomText(
-                      text: 'EVENTS & TOURNAMENTS',
-                      size: 18,
-                      weight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: CustomText(
+                        text: 'TOURNAMENTS',
+                        size: 18,
+                        weight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 10,),
-              Container(width: 1, height: 25, color: secondary,),
-              const SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
+              Container(
+                width: 1,
+                height: 25,
+                color: secondary,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
-                child: CustomTabBarSecondary(controller: tabPage2, tabs: contentViews.map((e) => e.tab).toList(), indiColor: primary,),
+                child: CustomTabBarSecondary(
+                  controller: tabPage2,
+                  tabs: contentViews.map((e) => e.tab).toList(),
+                  indiColor: primary,
+                ),
               )
             ],
           ),
           SizedBox(
-            width: _width - 290,
-            height: _height - kToolbarHeight - 70,
+            width: width - 290,
+            height: height - 130,
             child: TabBarView(
               controller: tabPage2.controller,
               children: [

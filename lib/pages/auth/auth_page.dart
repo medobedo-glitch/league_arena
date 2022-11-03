@@ -5,7 +5,7 @@ class AuthPage extends StatefulWidget {
   const AuthPage({Key? key, required this.child}) : super(key: key);
 
   @override
-  _AuthPageState createState() => _AuthPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {

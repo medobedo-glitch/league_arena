@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:league_arena/routes/routes.dart';
+import 'package:league_arena/constants/routes.dart';
 import 'package:league_arena/widgets/custom_text.dart';
 import 'package:routemaster/routemaster.dart';
 

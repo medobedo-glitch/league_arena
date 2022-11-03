@@ -1,4 +1,4 @@
-const String host = '192.168.56.1';
+const String host = '192.168.1.2';
 
 const String loginUrl =
     "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=login";

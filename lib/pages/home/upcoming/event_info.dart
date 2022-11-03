@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage_2/provider.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:league_arena/constants/controllers.dart';
+import 'package:league_arena/constants/routes.dart';
 import 'package:league_arena/constants/style.dart';
-import 'package:league_arena/routes/routes.dart';
+import 'package:league_arena/main.dart';
 import 'package:league_arena/utils/content_view.dart';
 import 'package:league_arena/widgets/custom_tab.dart';
 import 'package:league_arena/widgets/custom_tab_bar.dart';
 import 'package:league_arena/widgets/custom_text.dart';
-import 'package:league_arena/widgets/top_navigation_bar.dart';
 import 'package:routemaster/routemaster.dart';
 
 class EventInfo extends StatefulWidget {
@@ -21,6 +22,8 @@ class EventInfo extends StatefulWidget {
 }
 
 class _EventInfoState extends State<EventInfo> {
+  var mar = 10.0.obs;
+
   Future getEventInfo(String? id) async {
     await eventController.getEventInfoById(id);
   }
@@ -33,6 +36,10 @@ class _EventInfoState extends State<EventInfo> {
     });
 
     super.initState();
+  }
+
+  String convertDate(String time) {
+    return DateFormat("yyyy-MM-dd").format(DateTime.parse(time));
   }
 
   @override
@@ -72,271 +79,270 @@ class _EventInfoState extends State<EventInfo> {
 
     final tabPage3 = TabPage.of(context);
 
-    double _height = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
-
+    double width = MediaQuery.of(context).size.width;
 
     return Obx(
       () => eventController.eventInfo.isNotEmpty
-          ? Scaffold(
-              body: Container(
-              height: _height - kToolbarHeight,
-              width: _width,
-              margin: const EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: card),
+          ? Container(
+              color: card,
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 10),
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                          child: CustomText(
-                            text: '${eventController.eventInfo['events']['event_name']}'.toUpperCase() + '#' + '${eventController.eventInfo['events']['event_id']}',
-                            size: 25,
-                            weight: FontWeight.bold,
-                            color: Colors.lightBlueAccent,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                          child: IconButton(
-                            onPressed: () {
-                              Routemaster.of(context).pop();
-                            },
-                            icon: const Icon(Icons.close_outlined),
-                            padding: const EdgeInsets.all(5),
-                            constraints: const BoxConstraints(),
-                            color: primary,
-                            iconSize: 25,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                              // width: 280,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.public_outlined,
-                                    size: 20,
+                  Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 0.5, color: secondary),
+                        borderRadius: const BorderRadius.only(topRight: Radius.circular(5), topLeft: Radius.circular(5)),
+                        image: DecorationImage(
+                            image: AdvancedNetworkImage(
+                              eventController.eventInfo['overview_banner'],
+                              useDiskCache: true,
+                              cacheRule: const CacheRule(maxAge: Duration(days: 1)),
+                            ),
+                            fit: BoxFit.fill,
+                            filterQuality: FilterQuality.high)),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      //height: 150,
+                      width: width,
+                      margin: EdgeInsets.only(bottom: mar.value),
+                      //decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Container()),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      color: background.withOpacity(0.8),
+                                      border: Border.all(width: 0.5, color: background.withOpacity(0.7))),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Routemaster.of(context).pop();
+                                    },
+                                    icon: const Icon(Icons.close_outlined),
+                                    padding: const EdgeInsets.all(5),
+                                    constraints: const BoxConstraints(),
                                     color: primary,
+                                    iconSize: 20,
                                   ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomText(
-                                    text: '${eventController.eventInfo['events']['event_region']}',
-                                    size: 15,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              width: 1,
-                              height: 25,
-                              color: secondary,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                              // width: 280,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.date_range_outlined,
-                                    size: 20,
-                                    color: primary,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomText(
-                                    text: eventController.eventInfo['events']['event_date'],
-                                    size: 15,
-                                    weight: FontWeight.bold,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.schedule_outlined,
-                                    size: 20,
-                                    color: primary,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomText(
-                                    text: DateFormat.jm()
-                                            .format(DateTime.parse(eventController.eventInfo['events']['event_date'] + 'T' + eventController.eventInfo['events']['event_hour'])) +
-                                        ' (EET)',
-                                    size: 15,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Expanded(child: Container()),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: background.withOpacity(0.8),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                      child: CustomText(
+                                        text: '${'${eventController.eventInfo['name']}'.toUpperCase()}#${eventController.eventInfo['id']}',
+                                        size: 25,
+                                        weight: FontWeight.bold,
+                                        color: Colors.lightBlueAccent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              width: 1,
-                              height: 25,
-                              color: secondary,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                              // width: 280,
-                              child: Row(
+                              Column(
                                 children: [
-                                  Tooltip(
-                                    textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primary),
-                                    decoration: BoxDecoration(color: background.withOpacity(0.8), borderRadius: BorderRadius.circular(5)),
-                                    message: 'Entry Fee',
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.payments_outlined,
-                                          size: 20,
-                                          color: primary,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(color: background.withOpacity(0.8), borderRadius: BorderRadius.circular(5)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.public_outlined,
+                                                  size: 20,
+                                                  color: primary,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                CustomText(
+                                                  text: '${eventController.eventInfo['region']}',
+                                                  size: 15,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 1,
+                                              height: 25,
+                                              color: secondary,
+                                            ),
+                                            Expanded(child: Container()),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.date_range_outlined,
+                                                  size: 20,
+                                                  color: primary,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                CustomText(
+                                                  text: convertDate(eventController.eventInfo['start_date']),
+                                                  size: 15,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Icon(
+                                                  Icons.schedule_outlined,
+                                                  size: 20,
+                                                  color: primary,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                CustomText(
+                                                  text:
+                                                      // ignore: prefer_interpolation_to_compose_strings
+                                                      '${DateFormat.jm().format(DateTime.parse('${convertDate(eventController.eventInfo['start_date'])}T' + eventController.eventInfo['start_hour']))} (EET)',
+                                                  size: 15,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 1,
+                                              height: 25,
+                                              color: secondary,
+                                            ),
+                                            Expanded(child: Container()),
+                                            Row(
+                                              children: [
+                                                Tooltip(
+                                                  textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primary),
+                                                  decoration: BoxDecoration(color: background.withOpacity(0.8), borderRadius: BorderRadius.circular(5)),
+                                                  message: 'Entry Fee',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.payments_outlined,
+                                                        size: 20,
+                                                        color: primary,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      CustomText(
+                                                        text: eventController.eventInfo['fee'] > 0 ? '${eventController.eventInfo['fee']}' ' USD' : 'FREE',
+                                                        size: 15,
+                                                        weight: FontWeight.bold,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Tooltip(
+                                                  textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primary),
+                                                  decoration: BoxDecoration(color: background.withOpacity(0.8), borderRadius: BorderRadius.circular(5)),
+                                                  message: 'Prize Per Winning Game',
+                                                  child: Row(children: [
+                                                    Icon(
+                                                      Icons.emoji_events_outlined,
+                                                      size: 20,
+                                                      color: primary,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    CustomText(
+                                                      text: eventController.eventInfo['fee'] > 0
+                                                          ? '${(eventController.eventInfo['fee'] * 3 / 4).toStringAsFixed(2)}' ' USD'
+                                                          : '${eventController.eventInfo['prize']}' ' USD',
+                                                      size: 15,
+                                                      weight: FontWeight.bold,
+                                                    ),
+                                                  ]),
+                                                )
+                                              ],
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 1,
+                                              height: 25,
+                                              color: secondary,
+                                            ),
+                                            Expanded(child: Container()),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.person_outline,
+                                                  size: 20,
+                                                  color: primary,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                CustomText(
+                                                  text: '${eventController.eventInfo['type']}',
+                                                  size: 15,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 1,
+                                              height: 25,
+                                              color: secondary,
+                                            ),
+                                            Expanded(child: Container()),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.people_outline,
+                                                  size: 20,
+                                                  color: primary,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                CustomText(
+                                                  text: '0' '/' '${eventController.eventInfo['capacity']}',
+                                                  size: 15,
+                                                  weight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        CustomText(
-                                          text: eventController.eventInfo['events']['event_fee'] > 0 ? '${eventController.eventInfo['events']['event_fee']}' ' USD' : 'FREE',
-                                          size: 15,
-                                          weight: FontWeight.bold,
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                  Tooltip(
-                                    textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primary),
-                                    decoration: BoxDecoration(color: background.withOpacity(0.8), borderRadius: BorderRadius.circular(5)),
-                                    message: 'Prize Per Winning Game',
-                                    child: Row(children: [
-                                      Icon(
-                                        Icons.emoji_events_outlined,
-                                        size: 20,
-                                        color: primary,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      CustomText(
-                                        text: eventController.eventInfo['events']['event_fee'] > 0 ? '${(eventController.eventInfo['events']['event_fee'] * 3 / 4).toStringAsFixed(2)}' ' USD' : '${eventController.eventInfo['events']['event_prize']}' ' USD',
-                                        size: 15,
-                                        weight: FontWeight.bold,
-                                      ),
-                                    ]),
-                                  )
                                 ],
                               ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              width: 1,
-                              height: 25,
-                              color: secondary,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                              // width: 280,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.person_outline,
-                                    size: 20,
-                                    color: primary,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomText(
-                                    text: '${eventController.eventInfo['events']['event_type']}',
-                                    size: 15,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              width: 1,
-                              height: 25,
-                              color: secondary,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), /*color: background.withOpacity(0.8),*/ border: Border.all(width: 0.5, color: secondary)),
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                              // width: 280,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.person_outline,
-                                    size: 20,
-                                    color: primary,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomText(
-                                    text: '0' '/' '${eventController.eventInfo['events']['event_capacity']}',
-                                    size: 15,
-                                    weight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   CustomTabBarPrimary(
                     controller: tabPage3,
@@ -347,7 +353,7 @@ class _EventInfoState extends State<EventInfo> {
                     height: 10,
                   ),
                   SizedBox(
-                    height: _height - kToolbarHeight - 235,
+                    height: 270,
                     //width: _width,
                     child: TabBarView(
                       controller: tabPage3.controller,
@@ -358,14 +364,8 @@ class _EventInfoState extends State<EventInfo> {
                   ),
                 ],
               ),
-            ))
-          : const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(
-                  color: Colors.green,
-                ),
-              ),
-            ),
+            )
+          : const Center(),
     );
   }
 }

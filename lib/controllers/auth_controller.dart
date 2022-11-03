@@ -3,10 +3,11 @@ import 'package:firedart/auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:league_arena/constants/controllers.dart';
-import 'package:league_arena/routes/routes.dart';
+import 'package:league_arena/constants/routes.dart';
+import 'package:league_arena/dialogues/reset_password_dialogue.dart';
+import 'package:league_arena/pages/main/app_portal.dart';
 import 'package:league_arena/widgets/snack_bar/custom_snack_bar.dart';
 import 'package:league_arena/widgets/snack_bar/top_snack_bar.dart';
-import 'package:routemaster/routemaster.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
@@ -18,7 +19,7 @@ class AuthController extends GetxController {
     try {
       await auth.signUp(email, password).then((_) async {
         var user = await auth.getUser();
-        if (await userController.register(user.id, email, password)) {
+        if (await userController.register(user.id, email)) {
           sendVerification(context);
         }
       });
@@ -38,8 +39,9 @@ class AuthController extends GetxController {
       String email, String password, BuildContext context) async {
     try {
       await auth.signIn(email, password).then((_) async {
-        if (await userController.login(email)) {
-          Routemaster.of(context).pop(rootRoute);
+        var user = await auth.getUser();
+        if (await userController.login(user.id)) {
+          routemaster.pop(rootRoute);
         }
       });
       return true;
@@ -57,9 +59,8 @@ class AuthController extends GetxController {
   Future<bool> sendVerification(BuildContext context) async {
     try {
       await auth.requestEmailVerification().then((_) async {
-        var user = await auth.getUser();
-        Routemaster.of(context)
-            .push(verifyEmailRoute, queryParameters: {'email': user.email as String});
+        //var user = await auth.getUser();
+        //routemaster.push(verifyEmailRoute, queryParameters: {'email': user.email as String});
       });
       return true;
     } on AuthException catch (e) {
@@ -76,8 +77,7 @@ class AuthController extends GetxController {
   Future<bool> passwordReset(String email, BuildContext context) async {
     try {
       await auth.resetPassword(email).then((_) {
-        Routemaster.of(context)
-            .replace(authResetSentRoute, queryParameters: {'email': email});
+       showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => ResetPasswordDialogue(email: email,));
       });
       return true;
     } on AuthException catch (e) {
@@ -99,7 +99,7 @@ class AuthController extends GetxController {
     return false;
   }
 
-  Future<void> signOut(BuildContext context) async {
+  Future<void> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     auth.signOut();
     prefs.remove('userId');
@@ -109,6 +109,6 @@ class AuthController extends GetxController {
     prefs.remove('userBalance');
     prefs.remove('userDisplayName');
     userController.doInit();
-    Routemaster.of(context).replace(homeScreenRoute);
+    routemaster.replace(homeScreenRoute);
   }
 }

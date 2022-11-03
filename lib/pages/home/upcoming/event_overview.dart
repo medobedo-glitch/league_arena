@@ -25,9 +25,10 @@ class _EventOverviewState extends State<EventOverview> {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Obx(
       () => Container(
+          //height: 50,
           decoration: BoxDecoration(color: card),
           padding: const EdgeInsets.only(bottom: 0),
           child: SmoothScroll(
@@ -40,17 +41,10 @@ class _EventOverviewState extends State<EventOverview> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       children: [
-                        Container(
-                          height: 260,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 0.5, color: secondary),
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                  image: NetworkImage('${eventController.eventInfo['events']['overview_banner']}'), fit: BoxFit.cover, filterQuality: FilterQuality.high)),
-                        ),
+                        
                         const SizedBox(
                           height: 10,
                         ),
@@ -71,16 +65,16 @@ class _EventOverviewState extends State<EventOverview> {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                          padding: const EdgeInsets.only(left: 20, right: 10, bottom: 10),
                           child: SizedBox(
                             //decoration: BoxDecoration(border: Border.all(width: 0.5, color: secondary)),
-                            width: _width,
+                            width: width,
                             child: RichText(
                               textAlign: TextAlign.start,
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                      text: convertNewLine(eventController.eventInfo['events']['overview_text']),
+                                      text: convertNewLine(eventController.eventInfo['overview_text']),
                                       style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 17))),
                                 ],
                               ),
