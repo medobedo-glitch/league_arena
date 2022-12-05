@@ -1,10 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/controllers.dart';
 import 'package:league_arena/constants/style.dart';
-import 'package:league_arena/dialogues/sign_up_dialogue.dart';
+import 'package:league_arena/dialogs/reset_password_dialog.dart';
+import 'package:league_arena/dialogs/sign_up_dialog.dart';
 import 'package:league_arena/widgets/custom_text.dart';
 
 class AuthLoginScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                 //textAlign: TextAlign.start,
                 text: TextSpan(
                   children: [
-                    TextSpan(text: "SIGN IN", style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 25, fontWeight: FontWeight.bold))),
+                    TextSpan(text: "SIGN IN", style: TextStyle(color: primary, fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu')),
                   ],
                 ),
               ),
@@ -53,7 +53,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
             //textAlign: TextAlign.start,
             text: TextSpan(
               children: [
-                TextSpan(text: "Sign In to your League Arena account", style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.bold))),
+                TextSpan(text: "Sign In to your League Arena account", style:TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu')),
               ],
             ),
           ),
@@ -83,7 +83,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                     }
                   },
                   controller: emailController,
-                  style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 15)),
+                  style: TextStyle(color: primary, fontSize: 15, fontFamily: 'Ubuntu'),
                   decoration: InputDecoration(
                     fillColor: hover,
                     filled: true,
@@ -91,8 +91,8 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                     contentPadding: const EdgeInsets.all(15),
                     //floatingLabelBehavior: FloatingLabelBehavior.never,
                     //hintText: "MUST BE A VALID EMAIL ADDRESS",
-                    hintStyle: GoogleFonts.ubuntu(textStyle: TextStyle(color: secondary, fontSize: 14, fontWeight: FontWeight.bold)),
-                    labelStyle: GoogleFonts.ubuntu(textStyle: TextStyle(color: secondary, fontWeight: FontWeight.bold)),
+                    hintStyle: TextStyle(color: secondary, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
+                    labelStyle: TextStyle(color: secondary, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
                     enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
                     focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
                     errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
@@ -139,7 +139,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                     }
                   },
                   controller: passwordController,
-                  style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 15)),
+                  style: TextStyle(color: primary, fontSize: 15, fontFamily: 'Ubuntu'),
                   obscureText: passwordVisible.value == true ? false : true,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(15),
@@ -166,8 +166,8 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                       },
                       splashRadius: 1,
                     ),
-                    hintStyle: GoogleFonts.ubuntu(textStyle: TextStyle(color: secondary, fontSize: 14, fontWeight: FontWeight.bold)),
-                    labelStyle: GoogleFonts.ubuntu(textStyle: TextStyle(color: secondary, fontWeight: FontWeight.bold)),
+                    hintStyle: TextStyle(color: secondary, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
+                    labelStyle: TextStyle(color: secondary, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
                     enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
                     focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
                     errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: const BorderSide(color: Colors.transparent), gapPadding: 0),
@@ -179,12 +179,12 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                 height: 5,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 30),
                 child: Tooltip(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: hover.withOpacity(0.8)),
                   waitDuration: const Duration(milliseconds: 200),
-                  textStyle: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 12)),
+                  textStyle: TextStyle(color: primary, fontSize: 12, fontFamily: 'Ubuntu'),
                   message: 'Signed In users are saved and remembered automatically,\nYou will need to sign out manually.',
                   child: Row(
                     children: [
@@ -240,7 +240,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                       //padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       fixedSize: const Size(350, 50),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      textStyle: GoogleFonts.ubuntu(textStyle: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+                      textStyle:const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu')),
                   child: _buttonPressed.value == true
                       ? const SizedBox(
                           height: 25,
@@ -252,7 +252,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                       : CustomText(
                           text: "SIGN IN",
                           color: _emailValid.value == true && _passwordValid.value == true ? primary : background,
-                          size: 15,
+                          size: 17,
                           weight: FontWeight.bold,
                         ),
                 ),
@@ -263,7 +263,13 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
               InkWell(
                 onTap: _emailValid.value == true
                     ? () async {
-                        await authController.passwordReset(emailController.value.text, context);
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) => ResetPasswordDialog(
+                                  email: emailController.value.text,
+                                ));
+                        //await authController.passwordReset(emailController.value.text, context);
                       }
                     : null,
                 child: RichText(
@@ -271,8 +277,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                     children: [
                       TextSpan(
                         text: "FORGOT PASSWORD?",
-                        style: GoogleFonts.ubuntu(
-                            textStyle: TextStyle(color: _emailValid.value == true ? Colors.blue : secondary, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
+                        style: TextStyle(color: _emailValid.value == true ? Colors.blue : secondary, fontWeight: FontWeight.bold, decoration: TextDecoration.underline, fontFamily: 'Ubuntu'),
                       ),
                     ],
                   ),
@@ -301,7 +306,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                   onPressed: () {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       setState(() {
-                        showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => const SignUpDialogue());
+                        showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => const SignUpDialog());
                       });
                     });
                   },
@@ -310,7 +315,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
                       elevation: 0,
                       fixedSize: const Size(350, 50),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      textStyle: GoogleFonts.ubuntu(textStyle: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+                      textStyle: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu')),
                   child: CustomText(
                     text: "CREATE ACCOUNT",
                     color: primary,

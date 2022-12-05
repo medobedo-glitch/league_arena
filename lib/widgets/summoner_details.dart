@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/controllers.dart';
 import 'package:league_arena/constants/style.dart';
 import 'package:league_arena/widgets/custom_text.dart';
@@ -9,24 +8,19 @@ class SummonerDetails extends StatefulWidget {
   final String summonerName;
   final String summonerId;
   final String summonerRegion;
-  const SummonerDetails({Key? key, required this.summonerName, required this.summonerId, required this.summonerRegion}) : super(key: key);
+  final String summonerRank;
+  const SummonerDetails({Key? key, required this.summonerName, required this.summonerId, required this.summonerRegion, required this.summonerRank}) : super(key: key);
 
   @override
   State<SummonerDetails> createState() => _SummonerDetailsState();
 }
 
 class _SummonerDetailsState extends State<SummonerDetails> {
-  Future getRank() async {
-    rank.value = await userController.getSummonerLeague(widget.summonerId, widget.summonerRegion);
-  }
-
   var size = 50.0.obs;
-  var rank = ''.obs;
   var removing = false.obs;
 
   @override
   Widget build(BuildContext context) {
-    getRank();
     return Obx(
       () => Container(
         margin: const EdgeInsets.only(bottom: 5),
@@ -56,17 +50,16 @@ class _SummonerDetailsState extends State<SummonerDetails> {
                                     waitDuration: const Duration(milliseconds: 300),
                                     message: widget.summonerName,
                                     child: SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                              widget.summonerName,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                              style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.bold)),
-                                            )
-                                    ),
+                                        width: 150,
+                                        child: Text(
+                                          widget.summonerName,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          softWrap: false,
+                                          style: TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
+                                        )),
                                   ),
-                                  CustomText(text: rank.value != '' ? rank.value : 'UNRANKED', weight: FontWeight.bold, size: 12, color: Colors.lightBlueAccent),
+                                  CustomText(text: widget.summonerRank != '' ? widget.summonerRank : 'UNRANKED', weight: FontWeight.bold, size: 12, color: Colors.lightBlueAccent),
                                 ],
                               ),
                             )
@@ -106,12 +99,10 @@ class _SummonerDetailsState extends State<SummonerDetails> {
                           message: 'Confirm',
                           child: IconButton(
                             onPressed: () async {
-                              await userController.removeSummoner(widget.summonerId)
+                              await userController.removeSummoner(widget.summonerName, widget.summonerRegion)
                                   ? [
                                       WidgetsBinding.instance.addPostFrameCallback((_) {
                                         removing.value = false;
-                                        userController.summoners.value = [];
-                                        userController.updateSummoners();
                                       })
                                     ]
                                   : null;

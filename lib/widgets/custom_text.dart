@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/style.dart';
 
 class CustomText extends StatelessWidget {
@@ -13,6 +12,6 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: GoogleFonts.ubuntu(textStyle: TextStyle(fontSize: size ?? 16, color: color ?? primary, fontWeight: weight ?? FontWeight.normal)));
+    return Text(text, style: TextStyle(fontSize: size ?? 16, color: color ?? primary, fontWeight: weight ?? FontWeight.normal, fontFamily: 'Ubuntu'));
   }
 }

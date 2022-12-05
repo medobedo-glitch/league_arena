@@ -56,7 +56,7 @@ void showTopSnackBar(
   );
 
   _previousEntry?.remove();
-  overlayState?.insert(overlayEntry);
+  overlayState.insert(overlayEntry);
   _previousEntry = overlayEntry;
 }
 

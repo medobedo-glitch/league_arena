@@ -7,3 +7,11 @@ class ContentView {
   final String content;
   final int index;
 }
+
+class ContentView2 {
+  ContentView2({required this.tab, required this.content, required this.index});
+
+  final CustomTab2 tab;
+  final String content;
+  final int index;
+}

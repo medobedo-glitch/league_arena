@@ -17,15 +17,14 @@ class CustomTabBarPrimary extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       tabs: tabs,
-      padding: EdgeInsets.zero,
       controller: controller.controller,
       isScrollable: true,
-      indicatorColor: indiColor,
-      //indicator: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/image/pngwing.com.png'))),
-      indicatorSize: TabBarIndicatorSize.label,
-      //indicatorPadding: EdgeInsets.only(top: 15),
+      indicatorSize: TabBarIndicatorSize.tab,
       unselectedLabelColor: secondary,
+      labelColor: Colors.lightBlue,
       overlayColor: MaterialStateProperty.all(Colors.transparent),
+      indicator: BoxDecoration(color: hover, borderRadius: BorderRadius.circular(30)),
+      indicatorPadding: const EdgeInsets.only(top: 11, right: 0, left: 0, bottom: 7),
     );
   }
 }
@@ -56,6 +55,34 @@ class CustomTabBarSecondary extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(5)),
       indicatorPadding: const EdgeInsets.only(top: 12, right: 0, left: 0, bottom: 7),
+    );
+  }
+}
+
+class CustomTabBarSecondary2 extends StatelessWidget {
+  final TabPageState controller;
+  final List<Widget> tabs;
+  final Color indiColor;
+  const CustomTabBarSecondary2({
+    Key? key,
+    required this.controller,
+    required this.tabs,
+    required this.indiColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBar(
+      tabs: tabs,
+      controller: controller.controller,
+      isScrollable: true,
+      padding: const EdgeInsets.only(bottom: 0),
+      indicatorSize: TabBarIndicatorSize.tab,
+      unselectedLabelColor: secondary,
+      labelColor: Colors.lightBlue,
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      indicator: BoxDecoration(color: hover, borderRadius: BorderRadius.circular(30)),
+      indicatorPadding: const EdgeInsets.only(top: 0, right: 0, left: 0, bottom: 1),
     );
   }
 }

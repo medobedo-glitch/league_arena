@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/routes.dart';
 import 'package:league_arena/widgets/custom_text.dart';
 import 'package:routemaster/routemaster.dart';
@@ -40,7 +39,7 @@ class PageNotFound extends StatelessWidget {
               children: [
                 TextSpan(
                     text: "RETURN TO HOME SCREEN",
-                    style: GoogleFonts.ubuntu(textStyle: const TextStyle(color: Colors.blue)),
+                    style: const TextStyle(color: Colors.blue, fontFamily: 'Ubuntu'),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Routemaster.of(context).push(rootRoute);

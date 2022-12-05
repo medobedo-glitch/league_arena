@@ -1,34 +1,80 @@
-const String host = '192.168.1.2';
+import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
 
-const String loginUrl =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=login";
+StreamSubscription<DatabaseEvent>? accountListener;
+StreamSubscription<DatabaseEvent>? euwSummonersListener;
+StreamSubscription<DatabaseEvent>? euneSummonersListener;
+StreamSubscription<DatabaseEvent>? onlineUserListener;
 
-const String registerUrl =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=register";
-
-const String updateDisplayNameUrl =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=updateDisplayName";
-
-const String checkLinkedSummoner =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=checkLinkedSummoner";
-
-const String getThirdPartyCode =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=getThirdPartyCode";
-
-const String saveSummoner =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=saveSummonerInfo";
-
-const String getLinkedSummoner =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=getLinkedSummoner";
-
-const String getLeagueEntries =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=getLeagueEntries";
-
-const String removeLinkedSummoner =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=removeLinkedSummoner";
-
-const String getEventsByRegion =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=getEvents";
-
-const String getEventById =
-    "http://$host/leaguearena/TfVv7sEnygNuPS.php?apicall=getEventInfoById";
+int convertRank(String rank) {
+  int converted;
+  switch (rank) {
+    case '':
+      converted = 0;
+      break;
+    case 'IRON IV':
+      converted = 1;
+      break;
+    case 'IRON III':
+      converted = 2;
+      break;
+    case 'IRON II':
+      converted = 3;
+      break;
+    case 'IRON I':
+      converted = 4;
+      break;
+    case 'SILVER IV':
+      converted = 5;
+      break;
+    case 'SILVER III':
+      converted = 6;
+      break;
+    case 'SILVER II':
+      converted = 7;
+      break;
+    case 'SILVER I':
+      converted = 8;
+      break;
+    case 'GOLD IV':
+      converted = 9;
+      break;
+    case 'GOLD III':
+      converted = 10;
+      break;
+    case 'GOLD II':
+      converted = 11;
+      break;
+    case 'GOLD I':
+      converted = 12;
+      break;
+    case 'PLATINUM IV':
+      converted = 13;
+      break;
+    case 'PLATINUM III':
+      converted = 14;
+      break;
+    case 'PLATINUM II':
+      converted = 15;
+      break;
+    case 'PLATINUM I':
+      converted = 16;
+      break;
+    case 'DIAMOND IV':
+      converted = 17;
+      break;
+    case 'DIAMOND III':
+      converted = 18;
+      break;
+    case 'DIAMOND II':
+      converted = 19;
+      break;
+    case 'DIAMOND I':
+      converted = 20;
+      break;
+    default:
+      converted = 21;
+      break;
+  }
+  return converted;
+}

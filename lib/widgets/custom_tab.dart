@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomTab extends StatelessWidget {
   final String title;
@@ -14,7 +13,27 @@ class CustomTab extends StatelessWidget {
       child: Tab(
         child: Text(
           title,
-          style: GoogleFonts.ubuntu(textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTab2 extends StatelessWidget {
+  final String title;
+  final double width;
+  const CustomTab2({Key? key, required this.title, required this.width}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Tab(
+        height: 35,
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'),
         ),
       ),
     );

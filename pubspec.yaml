@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+2
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,17 +41,26 @@ dependencies:
   firebase_auth: ^4.1.0
   firebase_core: ^2.1.1
   firebase_analytics: ^10.0.3
-  firedart: ^0.9.0+1
+  firebase_app_check: ^0.1.1+4
+  cloud_firestore: ^4.0.5
   eva_icons_flutter: ^3.0.2
   shared_preferences: ^2.0.8
   intl: ^0.17.0
-  window_manager: ^0.2.7
   routemaster: ^1.0.1
-  bitsdojo_window: ^0.1.5
-  mysql_client: ^0.0.27
   flutter_advanced_networkimage_2: ^2.0.1
-
-
+  date_count_down: ^2.1.0
+  progress_indicators: ^1.0.0
+  flutter_native_timezone: ^2.0.0
+  firebase_storage: ^11.0.5
+  file_picker: ^5.2.2
+  firebase_database: ^10.0.5
+  graphview: ^1.1.1
+  responsive_grid_list: ^1.3.0
+  flutter_improved_scrolling: ^0.0.3
+  envied: ^0.3.0
+  encrypt: ^5.0.0
+  crypto: ^3.0.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -63,10 +72,12 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
   flutter_native_splash: ^2.2.12
-
+  envied_generator: ^0.3.0
+  build_runner: ^2.3.2
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+  
 # The following section is specific to Flutter.
 flutter:
 
@@ -74,6 +85,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/Ubuntu-Bold.ttf
+        - asset: fonts/Ubuntu-Light.ttf
+        - asset: fonts/Ubuntu-Medium.ttf
+        - asset: fonts/Ubuntu-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:

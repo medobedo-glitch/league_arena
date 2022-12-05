@@ -1,17 +1,17 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:league_arena/constants/controllers.dart';
 import 'package:league_arena/constants/routes.dart';
 import 'package:league_arena/constants/style.dart';
+import 'package:league_arena/main.dart';
 import 'package:league_arena/pages/main/side_panel.dart';
-import 'package:league_arena/widgets/windows_buttons.dart';
 import 'package:league_arena/widgets/custom_tab_bar.dart';
 import 'package:league_arena/utils/content_view.dart';
 import 'package:league_arena/widgets/custom_tab.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:window_manager/window_manager.dart';
+
+var nowDetector = 0.obs;
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -32,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    userController.doInit();
     super.initState();
   }
 
@@ -41,13 +40,13 @@ class _MainScreenState extends State<MainScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    var one = 0.5.obs;
+    var one = 10.0.obs;
 
     var homeTabString = "HOME";
-    Size homeTabSize = calcTextSize(homeTabString, GoogleFonts.ubuntu(textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold)));
+    Size homeTabSize = calcTextSize(homeTabString, const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'));
 
-    var sponsorsTabString = "UNNAMED_TAB";
-    Size sponsorsTabSize = calcTextSize(sponsorsTabString, GoogleFonts.ubuntu(textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold)));
+    var sponsorsTabString = "COMMUNITY";
+    Size sponsorsTabSize = calcTextSize(sponsorsTabString, const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, fontFamily: 'Ubuntu'));
 
     List<ContentView> contentViews = [
       ContentView(
@@ -68,107 +67,91 @@ class _MainScreenState extends State<MainScreen> {
 
     final tabPage = TabPage.of(context);
 
-    return Obx(
-      () => Scaffold(
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
+    return Obx(() => Scaffold(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Column(
+            children: const [
+              SidePanel(),
+            ],
+          ),
+          Expanded(child: Container()),
+          SizedBox(
+            width: width - 310,
+            height: height,
+            child: Column(
               children: [
-                const SidePanel(),
-                Container(
-                  color: secondary,
-                  height: one.value,
-                  width: 290,
-                ),
-                Container(
-                  width: 290,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: card,
-                  ),
-                  child: Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(text: "© 2022 League Arena.", style: GoogleFonts.ubuntu(textStyle: TextStyle(color: primary))),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(child: Container()),
-            SizedBox(
-              width: width - 290,
-              height: height,
-              child: Column(
-                children: [
-                  GestureDetector(
-                    behavior: HitTestBehavior.deferToChild,
-                    onPanStart: (details) {
-                      windowManager.startDragging();
-                    },
-                    child: Container(
-                      color: background,
-                      child: Row(
-                        children: [
-                          CustomTabBarPrimary(
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: one.value),
+                  child: Container(
+                    decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(5)),
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: CustomTabBarPrimary(
                             controller: tabPage,
                             tabs: contentViews.map((e) => e.tab).toList(),
                             indiColor: Colors.lightBlueAccent,
                           ),
-                          // Expanded(
-                          //   child: SizedBox(
-                          //       height: kToolbarHeight - one.value,
-                          //       child: WindowTitleBarBox(
-                          //         child: DragToMoveArea(child: Container(),),
-                          //       )),
-                          // ),
-                          Expanded(
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              height: 54,
-                              color: background,
-                              child: WindowTitleBarBox(
-                                child: const WindowsButtons(),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        if (userController.uID.value != '')
+                          Tooltip(
+                            waitDuration: const Duration(milliseconds: 500),
+                            message: 'Sign Out',
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10, top: 5),
+                              child: IconButton(
+                                onPressed: () {
+                                  routemaster.replace(signOutScreenRoute);
+                                },
+                                icon: const Icon(Icons.logout),
+                                padding: const EdgeInsets.all(5),
+                                constraints: const BoxConstraints(),
+                                color: primary,
+                                iconSize: 25,
+                                hoverColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: Container()),
-                      SizedBox(
-                        width: width - 305,
-                        height: 0.5,
-                        child: Container(
-                          color: secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height - 60,
-                    width: width - 320,
-                    child: TabBarView(
-                      controller: tabPage.controller,
-                      children: [
-                        for (final stack in tabPage.stacks) PageStackNavigator(stack: stack),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                // Row(
+                //   children: [
+                //     Expanded(child: Container()),
+                //     SizedBox(
+                //       width: width - 305,
+                //       height: 0.5,
+                //       child: Container(
+                //         color: secondary,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                SizedBox(
+                  height: height - 70,
+                  width: width - 330,
+                  child: TabBarView(
+                    controller: tabPage.controller,
+                    children: [
+                      for (final stack in tabPage.stacks) PageStackNavigator(stack: stack),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
